@@ -1,0 +1,7 @@
+.space-y-2 > * + * {
+    margin-top: .5rem;
+}
+
+.space-y-4 > * + * {
+    margin-top: 1rem;
+}
