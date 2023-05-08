@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import CenterBox from "../components/CenterBox"
 import { pedidoService } from "../services/pedido"
 import cogoToast from "cogo-toast"
@@ -111,7 +111,7 @@ const Pedidos = () => {
 											</td>
 											<td>
 												<div className="d-flex flex-column space-y-2 align-items-center w-100 ">
-													<button type="button" className="btn btn-primary"> <i className="bi-pencil-square"></i> Editar</button>
+													<button onClick={()=>navigate('/editar/'+pedido.cotizacion)} type="button" className="btn btn-primary"> <i className="bi-pencil-square"></i> Editar</button>
 													<button onClick={()=>preparePedidoDelete(pedido.cotizacion)} type="button" className="btn btn-danger"> <i className="bi-trash"></i> Eliminar</button>
 												</div>
 											</td>

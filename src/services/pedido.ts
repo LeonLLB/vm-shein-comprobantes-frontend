@@ -5,16 +5,7 @@ class PedidoService{
 
     private apiUrl = import.meta.env.DEV ? 'http://localhost:3000/api' : '/api'
 
-    async cargar(data: PedidoDTO):Promise<boolean>{
-        const res = await fetch(this.apiUrl+'/registrar-pedido',{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify(data)
-        })
-        const status = res.status
-        const body : ValidationError[] | CommonError | {message:string} = await res.json()
+    private finishPostOrPutPedido(status:number,body:ValidationError[] | CommonError | {message:string}){
         if(status !== 200){
             console.log((body as any).length)
             if((body as ValidationError[]).length){
@@ -40,6 +31,32 @@ class PedidoService{
         return true
     }
 
+    async cargar(data: PedidoDTO):Promise<boolean>{
+        const res = await fetch(this.apiUrl+'/registrar-pedido',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(data)
+        })
+        const status = res.status
+        const body : ValidationError[] | CommonError | {message:string} = await res.json()
+        return this.finishPostOrPutPedido(status,body)
+    }
+
+    async editar(cotizacion:string,data: PedidoDTO):Promise<boolean>{
+        const res = await fetch(this.apiUrl+'/editar-pedido/'+cotizacion,{
+            method:'PUT',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(data)
+        })
+        const status = res.status
+        const body : ValidationError[] | CommonError | {message:string} = await res.json()
+        return this.finishPostOrPutPedido(status,body)
+    }
+
     async getAll(): Promise<Pedido[]>{
         const res = await fetch(this.apiUrl+'/pedidos')
 
@@ -47,6 +64,19 @@ class PedidoService{
 
         if(status === 400){
             return []
+        }
+        const data = await res.json()
+
+        return data
+    }
+
+    async getOne(cotizacion:string): Promise<Pedido | null>{
+        const res = await fetch(this.apiUrl+'/pedido/'+cotizacion)
+
+        const status = res.status
+
+        if(status === 400){
+            return null
         }
         const data = await res.json()
 
