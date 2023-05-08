@@ -9,7 +9,10 @@ export const useBsModal = () => {
     
     
     const getBsModalInstance = () => {
-        const instance = modal.getOrCreateInstance(modalRef.current!)
+        const instance = modal.getOrCreateInstance(modalRef.current!,{
+            backdrop:'static',
+            keyboard:true
+        })
         return instance
     }
 

@@ -53,6 +53,12 @@ class PedidoService{
         return data
     }
 
+    async delete(cotizacion: string): Promise<boolean>{
+        const res = await fetch(this.apiUrl+'/eliminar-pedido/'+cotizacion,{method:'DELETE'})
+
+        return res.status === 200
+    }
+
     getComprobanteURL(cotizacion:string):string{
         return this.apiUrl + '/comprobante/'+cotizacion
     }

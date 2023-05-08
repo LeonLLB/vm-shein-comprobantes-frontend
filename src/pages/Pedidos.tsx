@@ -46,7 +46,20 @@ const Pedidos = () => {
 	}
 
 	const triggerDelete = () => {
-		console.log('you\'ve wanted to delete '+pedidoToDelete)
+		const toast = cogoToast.loading('Eliminando pedido')
+		pedidoService.delete(pedidoToDelete)
+		.then(isOk=>{
+			toast.hide!()
+			modalInteraction()
+			if(isOk){
+				cogoToast.success(`Pedido ${pedidoToDelete} eliminado con exito`)
+				const newPedidoList = pedidos.filter(pedido=>pedido.cotizacion !== pedidoToDelete)
+				setPedidos(newPedidoList)
+			} else {
+				cogoToast.error('No se pudo eliminar la cotización')
+			}
+			setPedidoToDelete('')
+		})
 	}
 
 	return (
