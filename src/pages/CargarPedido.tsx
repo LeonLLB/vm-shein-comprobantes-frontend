@@ -70,7 +70,7 @@ const CargarPedido = () => {
 		<CenterBox>
 			<form onSubmit={onSubmit} className="my-5 space-y-2">
 				<h3 className="text-center">Cargar pedido</h3>
-				<fieldset className="bg-body-secondary p-2 rounded">
+				<fieldset className="bg-secondary p-2 rounded">
 					<legend>Datos del cliente</legend>
 					<div className="d-flex flex-row space-x-4">
 						{/* NOMBRE Y APELLIDO */}
@@ -82,9 +82,9 @@ const CargarPedido = () => {
 						<FormInput label="Telefono" type="tel" name="telefono" value={clienteForm.telefono} onChange={onClienteValueChange}/>
 					</div>
 				</fieldset>
-				<fieldset className="bg-body-secondary p-2 rounded">
+				<fieldset className="bg-secondary p-2 rounded">
 					<legend>Datos de los productos</legend>
-					<div style={{height:'12.5rem'}} className="space-y-4 overflow-y-scroll">
+					<div style={{height:'12.5rem'}} className="space-y-4 overflow-auto">
 					{productosForm.map((_,i)=>(
 						<div style={{width:'90%'}} className="p-2 card container space-y-2" key={i}>
 							<div className="row">
