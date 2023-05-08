@@ -2,6 +2,8 @@ import { FormEvent, useEffect, useState } from "react"
 import CenterBox from "../components/CenterBox"
 import FormInput from "../components/FormInput"
 import { useNavigate } from "react-router-dom"
+import { pedidoService } from "../services/pedido"
+import cogoToast from "cogo-toast"
 
 const CargarPedido = () => {
 
@@ -56,14 +58,38 @@ const CargarPedido = () => {
 
 	const onSubmit = (e:FormEvent) => {
 		e.preventDefault()
-		console.log(clienteForm)
-		console.log(productosForm)
 		const fechaEmision = new Date()
-		console.log(fechaEmision.getHours())
-		console.log(fechaEmision.getDate())
-		console.log(fechaEmision.getMonth()+1)
-		console.log(fechaEmision.getFullYear())
-		console.log(fechaEmision.getMinutes())
+		const fecha = {
+			year:fechaEmision.getFullYear(),
+			month:fechaEmision.getMonth()+1 < 10 ? `0${fechaEmision.getMonth()+1}` : fechaEmision.getMonth()+1,
+			date:fechaEmision.getDate() < 10 ? `0${fechaEmision.getDate()}` : fechaEmision.getDate(),
+		}
+
+		pedidoService.cargar({
+			fecha:`${fecha.year}-${fecha.month}-${fecha.date}`,
+			horaMinutosEmision:+(`${fechaEmision.getHours()}${fechaEmision.getMinutes()}`),
+			cliente:{...clienteForm},
+			productos:productosForm.map(producto=>({
+				...producto,
+				cantidad:+producto.cantidad,
+				precioUnitario:+producto.precioUnitario
+			}))
+		})
+		.then(isOk=>{cogoToast.success('Pedido cargado con exito!');if(isOk)navigate('/')})
+		.catch(err=>{
+			const {message} = err
+
+			if(message.includes('[')){
+				const errorList = JSON.parse(message)
+
+				cogoToast.error(<ul>
+					{errorList.map((error:string)=><li>{error}</li>)}
+				</ul>)
+				return
+			}
+			cogoToast.error(message)
+		})
+
 	}
 
 	return (
