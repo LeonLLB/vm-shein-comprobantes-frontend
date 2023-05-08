@@ -1,5 +1,5 @@
 import { CommonError, ValidationError } from "../interfaces/error"
-import { PedidoDTO } from "../interfaces/pedido"
+import { Pedido, PedidoDTO } from "../interfaces/pedido"
 
 class PedidoService{
 
@@ -38,6 +38,23 @@ class PedidoService{
             return false
         }
         return true
+    }
+
+    async getAll(): Promise<Pedido[]>{
+        const res = await fetch(this.apiUrl+'/pedidos')
+
+        const status = res.status
+
+        if(status === 400){
+            return []
+        }
+        const data = await res.json()
+
+        return data
+    }
+
+    getComprobanteURL(cotizacion:string):string{
+        return this.apiUrl + '/comprobante/'+cotizacion
     }
 }
 

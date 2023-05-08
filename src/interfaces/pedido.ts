@@ -27,3 +27,40 @@ export interface PedidoDTO{
 
     productos: ProductoDTO[]
 }
+
+interface Cliente{
+    id:number
+
+    nombre:string
+
+    apellido: string
+
+    telefono: string
+}
+
+interface Producto{
+    id: number
+
+    link: string
+
+    talla: string
+
+    color: string
+
+    cantidad: number
+
+    precioUnitario:number
+}
+
+export interface Pedido{
+    id: number
+    fecha: string
+    
+    horaMinutosEmision: number
+
+    cotizacion: string
+
+    cliente: Cliente
+
+    productos: Producto[]
+}
