@@ -71,7 +71,7 @@ const Pedidos = () => {
 							<h3>Últimos pedidos en sistema</h3>
 						</span>
 						<span className="col">
-							<button className="btn btn-primary">Cargar pedido</button>
+							<button onClick={()=>navigate('/cargar')} className="btn btn-primary">Cargar pedido</button>
 						</span>
 					</div>
 					<div className="row">
