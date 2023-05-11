@@ -22,9 +22,9 @@ const PedidoForm: FC<PedidoFormProps> = ({onSubmitFunc,formTitle,routeBtnMsg,rou
 	const defaultProductoForm = {
 		link:'',
 		talla:'',
-		color:'',
 		cantidad:'',
-		precioUnitario:''
+		precioUnitario:'',
+		envioUnitario:'',
 	}
 
 	const [clienteForm, setClienteForm] = useState((dataToPreload)?{...dataToPreload.cliente}:{
@@ -40,7 +40,7 @@ const PedidoForm: FC<PedidoFormProps> = ({onSubmitFunc,formTitle,routeBtnMsg,rou
 
 	const [productosForm, setProductosForm] = useState(
         (dataToPreload)
-        ? dataToPreload.productos.map(producto=>({...producto,cantidad:producto.cantidad.toString(),precioUnitario:producto.precioUnitario.toString()}))
+        ? dataToPreload.productos.map(producto=>({...producto,cantidad:producto.cantidad.toString(),precioUnitario:producto.precioUnitario.toString(),envioUnitario:producto.envioUnitario.toString()}))
         : [{...defaultProductoForm}]
     )
 
@@ -60,7 +60,7 @@ const PedidoForm: FC<PedidoFormProps> = ({onSubmitFunc,formTitle,routeBtnMsg,rou
 		setProductosForm(newProductosForm)
 	}
 
-	const onProductValueChange = (name:"link"|"talla"|"color"|"cantidad"|"precioUnitario",value:string,index:number) => {
+	const onProductValueChange = (name:"link"|"talla"|"envioUnitario"|"cantidad"|"precioUnitario",value:string,index:number) => {
 		const newProductoForm = [...productosForm]
 		newProductoForm[index][name] = value
 		setProductosForm([...newProductoForm])
@@ -82,7 +82,8 @@ const PedidoForm: FC<PedidoFormProps> = ({onSubmitFunc,formTitle,routeBtnMsg,rou
 			productos:productosForm.map(producto=>({
 				...producto,
 				cantidad:+producto.cantidad,
-				precioUnitario:+producto.precioUnitario
+				precioUnitario:+producto.precioUnitario,
+				envioUnitario:+producto.envioUnitario,
 			}))
 		})
 
@@ -119,15 +120,15 @@ const PedidoForm: FC<PedidoFormProps> = ({onSubmitFunc,formTitle,routeBtnMsg,rou
 							</div>
 							<div className="row">
 								<div className="col">
-									<FormInput label="Color" name={"color"+i} value={productosForm[i].color} onChange={(_,v)=>onProductValueChange("color",v,i)}/>
+									<FormInput label="Cantidad" type="number" name={"cantidad"+i} value={productosForm[i].cantidad} onChange={(_,v)=>onProductValueChange("cantidad",v,i)}/>
 								</div>
 								<div className="col">
-									<FormInput label="Cantidad" type="number" name={"cantidad"+i} value={productosForm[i].cantidad} onChange={(_,v)=>onProductValueChange("cantidad",v,i)}/>
+									<FormInput label="Precio Unitario ($)" name={"precioUnitario"+i} value={productosForm[i].precioUnitario} onChange={(_,v)=>onProductValueChange("precioUnitario",v,i)}/>
 								</div>
 							</div>
 							<div className="row">
 								<div className="col">
-									<FormInput label="Precio Unitario ($)" name={"precioUnitario"+i} value={productosForm[i].precioUnitario} onChange={(_,v)=>onProductValueChange("precioUnitario",v,i)}/>
+									<FormInput label="Envío Unitario ($)" type='number' name={"envioUnitario"+i} value={productosForm[i].envioUnitario} onChange={(_,v)=>onProductValueChange("envioUnitario",v,i)}/>
 								</div>
 								<div className="col">
 									<button type="button" disabled={isRemoveButtonDisabled} onClick={()=>removeProductoFromForm(i)} className="w-100 btn btn-danger">Quitar producto</button>

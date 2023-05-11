@@ -11,11 +11,11 @@ interface ProductoDTO{
 
     talla: string
 
-    color: string
-
     cantidad: number
 
     precioUnitario:number
+
+    envioUnitario:number
 }
 
 export interface PedidoDTO{
@@ -45,11 +45,11 @@ interface Producto{
 
     talla: string
 
-    color: string
-
     cantidad: number
 
     precioUnitario:number
+    
+    envioUnitario:number
 }
 
 export interface Pedido{

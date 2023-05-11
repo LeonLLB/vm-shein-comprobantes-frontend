@@ -104,7 +104,7 @@ const Pedidos = () => {
 												<ol className="space-y-2">
 													{pedido.productos.map(producto => (
 														<li key={pedido.cotizacion + producto.id}>
-															<a target="_blank" href={producto.link}>Producto en Shein: {producto.talla} {producto.color} {producto.cantidad} unidad(es) ${producto.precioUnitario}</a>
+															<a target="_blank" href={producto.link}>Producto en Shein: {producto.talla} {producto.cantidad} unidad(es) ${producto.precioUnitario}</a>
 														</li>
 													))}
 												</ol>
