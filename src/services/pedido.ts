@@ -62,7 +62,7 @@ class PedidoService{
 
         const status = res.status
 
-        if(status === 400){
+        if(status !== 200){
             return []
         }
         const data = await res.json()
@@ -75,7 +75,7 @@ class PedidoService{
 
         const status = res.status
 
-        if(status === 400){
+        if(status !== 200){
             return null
         }
         const data = await res.json()
