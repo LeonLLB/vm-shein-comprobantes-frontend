@@ -13,7 +13,7 @@ const CargarPedido = () => {
 		pedidoService.cargar(data)
 		.then(isOk=>{
             if(isOk){
-                cogoToast.success('Pedido modificado con exito!');navigate('/pedidos')
+                cogoToast.success('Pedido registrado con exito!');navigate('/pedidos')
                 return
             }
             cogoToast.error('Ocurrio un error al editar el pedido')

@@ -11,6 +11,8 @@ interface ProductoDTO{
 
     talla: string
 
+    nombre: string
+
     cantidad: number
 
     precioUnitario:number
@@ -22,6 +24,8 @@ export interface PedidoDTO{
     fecha: string
 
     horaMinutosEmision: number
+
+    conImpuesto: boolean
 
     cliente: ClienteDTO
 
@@ -43,6 +47,8 @@ interface Producto{
 
     link: string
 
+    nombre: string
+
     talla: string
 
     cantidad: number
@@ -55,6 +61,7 @@ interface Producto{
 export interface Pedido{
     id: number
     fecha: string
+    conImpuesto: boolean
     
     horaMinutosEmision: number
 

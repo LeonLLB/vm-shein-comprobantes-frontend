@@ -25,6 +25,7 @@ const PedidoForm: FC<PedidoFormProps> = ({onSubmitFunc,formTitle,routeBtnMsg,rou
 		cantidad:'',
 		precioUnitario:'',
 		envioUnitario:'',
+		nombre:''
 	}
 
 	const [clienteForm, setClienteForm] = useState((dataToPreload)?{...dataToPreload.cliente}:{
@@ -32,6 +33,8 @@ const PedidoForm: FC<PedidoFormProps> = ({onSubmitFunc,formTitle,routeBtnMsg,rou
 		apellido:'',
 		telefono:''
 	})
+
+	const [conImpuesto,setConImpuesto] = useState<boolean>(dataToPreload?.conImpuesto || true)
 
 	const onClienteValueChange = (name:string,value:string) => setClienteForm({
 		...clienteForm,
@@ -60,7 +63,7 @@ const PedidoForm: FC<PedidoFormProps> = ({onSubmitFunc,formTitle,routeBtnMsg,rou
 		setProductosForm(newProductosForm)
 	}
 
-	const onProductValueChange = (name:"link"|"talla"|"envioUnitario"|"cantidad"|"precioUnitario",value:string,index:number) => {
+	const onProductValueChange = (name:"link"|"talla"|"envioUnitario"|"cantidad"|"precioUnitario"|"nombre",value:string,index:number) => {
 		const newProductoForm = [...productosForm]
 		newProductoForm[index][name] = value
 		setProductosForm([...newProductoForm])
@@ -78,6 +81,7 @@ const PedidoForm: FC<PedidoFormProps> = ({onSubmitFunc,formTitle,routeBtnMsg,rou
 		onSubmitFunc({
 			fecha:`${fecha.year}-${fecha.month}-${fecha.date}`,
 			horaMinutosEmision:+(`${fechaEmision.getHours()}${fechaEmision.getMinutes()}`),
+			conImpuesto,
 			cliente:{...clienteForm},
 			productos:productosForm.map(producto=>({
 				...producto,
@@ -100,9 +104,13 @@ const PedidoForm: FC<PedidoFormProps> = ({onSubmitFunc,formTitle,routeBtnMsg,rou
 						<FormInput label="Nombre" name="nombre" value={clienteForm.nombre} onChange={onClienteValueChange}/>
 						<FormInput label="Apellido" name="apellido" value={clienteForm.apellido} onChange={onClienteValueChange}/>
 					</div>
-					<div className="">
-						{/* TELEFONO */}
+					<div className="d-flex flex-row space-x-4">
+						{/* TELEFONO Y VALID IMPUESTO */}
 						<FormInput label="Telefono" type="tel" name="telefono" value={clienteForm.telefono} onChange={onClienteValueChange}/>
+						<div className="form-check mt-4 bg-white py-2  border-secondary rounded">
+							<input type="checkbox" className='form-check-input' name="conImpuesto" id="conImpuesto" onChange={(e)=>setConImpuesto(e.target.checked)} checked={conImpuesto}/>
+							<label htmlFor="conImpuesto" className='form-check-label'>Pedido con impuesto</label>
+						</div>
 					</div>
 				</fieldset>
 				<fieldset className="bg-secondary p-2 rounded">
@@ -115,21 +123,26 @@ const PedidoForm: FC<PedidoFormProps> = ({onSubmitFunc,formTitle,routeBtnMsg,rou
 									<FormInput label="Link de Shein" name={"link"+i} value={productosForm[i].link} onChange={(_,v)=>onProductValueChange("link",v,i)}/>
 								</div>
 								<div className="col">
-									<FormInput label="Talla" name={"talla"+i} value={productosForm[i].talla} onChange={(_,v)=>onProductValueChange("talla",v,i)}/>
+									<FormInput label="Nombre del producto" name={"nombre"+i} value={productosForm[i].nombre} onChange={(_,v)=>onProductValueChange("nombre",v,i)}/>
 								</div>
 							</div>
 							<div className="row">
+								<div className="col">
+									<FormInput label="Talla" name={"talla"+i} value={productosForm[i].talla} onChange={(_,v)=>onProductValueChange("talla",v,i)}/>
+								</div>
 								<div className="col">
 									<FormInput label="Cantidad" type="number" name={"cantidad"+i} value={productosForm[i].cantidad} onChange={(_,v)=>onProductValueChange("cantidad",v,i)}/>
 								</div>
-								<div className="col">
-									<FormInput label="Precio Unitario ($)" name={"precioUnitario"+i} value={productosForm[i].precioUnitario} onChange={(_,v)=>onProductValueChange("precioUnitario",v,i)}/>
-								</div>
 							</div>
 							<div className="row">
 								<div className="col">
+									<FormInput label="Precio Unitario ($)" type='number' name={"precioUnitario"+i} value={productosForm[i].precioUnitario} onChange={(_,v)=>onProductValueChange("precioUnitario",v,i)}/>
+								</div>
+								<div className="col">
 									<FormInput label="Envío Unitario ($)" type='number' name={"envioUnitario"+i} value={productosForm[i].envioUnitario} onChange={(_,v)=>onProductValueChange("envioUnitario",v,i)}/>
 								</div>
+							</div>
+							<div className="row">
 								<div className="col">
 									<button type="button" disabled={isRemoveButtonDisabled} onClick={()=>removeProductoFromForm(i)} className="w-100 btn btn-danger">Quitar producto</button>
 								</div>
